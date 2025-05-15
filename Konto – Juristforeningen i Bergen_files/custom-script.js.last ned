@@ -1,0 +1,11 @@
+jQuery(document).ready(function(){
+    var user_id = php_vars.user_id;
+    console.log('userid='+ user_id);
+    // alert();
+        // Set the value of the input field with class "user_id"
+        jQuery('.current_user_id').val(user_id);
+       
+});
+
+
+

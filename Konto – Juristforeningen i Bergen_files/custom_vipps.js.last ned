@@ -1,0 +1,78 @@
+jQuery(document).ready(function() {
+    if(jQuery('#click_vipps_api').length) {
+        // alert('clicked');
+        // var userId = jQuery(this).attr('user-id');
+        // alert('ddd');
+            jQuery.ajax({
+                url: vippsAjax.ajax_url, // WordPress AJAX URL
+                type: 'POST',
+                data: {
+                    action: 'make_vipps_payment'
+                    // userId:userId // AJAX action to be handled in your functions.php
+                },
+                success: function(response) {
+                    
+                    var responseObject = JSON.parse(response);
+                    var redirectUrl = responseObject.redirect_url;
+
+                    // Redirecting to the redirectUrl if available
+                    if (redirectUrl) {
+                        window.location.href = redirectUrl;
+                    } else {
+                        // Handle case where redirectUrl is not available
+                        console.error("Redirect URL is not available in the response");
+                    }
+                    var accessToken = responseObject.access_token;
+                    var redirectUrl = responseObject.redirect_url;
+                    var reference_id = responseObject.reference_id;
+                    var usr_id = responseObject.user_id;
+                    // Use the variables as needed
+                    console.log("Access Token:", accessToken);
+                    console.log("Redirect URL:", redirectUrl);
+                    console.log("reference_id:", reference_id);
+                    console.log("user_id:", usr_id);
+                },
+                error: function(xhr, status, error) {
+                    // alert('err');
+                    console.error(error); // Log any errors for debugging
+                    // Handle error
+                }
+            });
+    }
+        
+        jQuery(document).on('click', '.vipps_button', function(e) {
+            // alert('done');
+            e.preventDefault();
+            // alert('clicked');
+            // var userId = jQuery(this).attr('user-id');
+                jQuery.ajax({
+                url: vippsAjax.ajax_url, // WordPress AJAX URL
+                type: 'POST',
+                data: {
+                    action: 'retry_payment'
+                    // userId:userId // AJAX action to be handled in your functions.php
+                },
+                success: function(response) {
+                    // console.log(response);
+                    if (response) {
+                        window.location.href = response;
+                    } else {
+                        // Handle case where redirectUrl is not available
+                        console.error("Redirect URL is not available in the response");
+                    }
+                   
+                },
+                error: function(xhr, status, error) {
+                    // alert('err');
+                    console.error(error); // Log any errors for debugging
+                    // Handle error
+                }
+            });
+            
+        });
+
+        
+      
+        
+    });
+    

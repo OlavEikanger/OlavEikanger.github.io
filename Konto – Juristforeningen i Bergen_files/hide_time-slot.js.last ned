@@ -1,0 +1,46 @@
+jQuery(document).on('click', 'td.datepick-today div.date-cell-content, td.datepick-days-cell', function() { 
+    let allMatch = false;
+    var currentDate = new Date();
+    var day = currentDate.getDate();
+    let isFound = false;
+    
+    jQuery('.datepick-current-day').each(function() {
+        var selectedDate = parseInt(jQuery(this).find('a').text());
+        if(selectedDate === day){
+            isFound = true;
+        }
+    });
+    
+    if(!isFound){
+        return;
+    }
+    
+    var options = { timeZone: 'Europe/Oslo', hour12: false, hour: 'numeric' };
+    var gmtPlus1Time = parseInt(currentDate.toLocaleString('en-US', options));
+    console.log("Current time in GMT+1 (Norway):", gmtPlus1Time);
+     
+    jQuery(".wpbc_times_selector div").each(function() {
+       
+        var textContent = jQuery(this).data('value').split("-"); // Split the text content by "-"
+        var startTime = parseInt(textContent[0]); // Parse the start time as an integer
+        var endTime = parseInt(textContent[1]); // Parse the end time as an integer
+       // console.log(startTime,endTime);
+        if((startTime < gmtPlus1Time || endTime < gmtPlus1Time) || (startTime == gmtPlus1Time)){
+          jQuery(this).hide();
+            
+        }
+       
+    });
+     setTimeout(function() {
+                jQuery('#selected_short_timedates_hint_tip9').text('');
+                jQuery('span#selected_short_timedates_hint_tip12').text('');
+                 jQuery('span#selected_short_timedates_hint_tip6').text('');
+                  jQuery('span#selected_short_timedates_hint_tip7').text('');
+                   jQuery('span#selected_short_timedates_hint_tip8').text('');
+                   jQuery('span#selected_short_timedates_hint_tip10').text('');
+                   jQuery('span#selected_short_timedates_hint_tip11').text('');
+                  
+                
+            }, 1000);
+});
+
